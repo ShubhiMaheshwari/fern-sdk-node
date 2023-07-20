@@ -11,6 +11,8 @@ import * as errors from "../../../../errors";
 export declare namespace Orders {
     interface Options {
         environment: core.Supplier<string>;
+        clientId?: core.Supplier<string | undefined>;
+        clientSecret?: core.Supplier<string | undefined>;
         apiVersion?: core.Supplier<string | undefined>;
     }
 }
@@ -27,23 +29,28 @@ export class Orders {
     public async createOrder(
         request: ShubhiMaheshwariApi.CreateOrderBackendRequest
     ): Promise<ShubhiMaheshwariApi.OrdersEntity> {
-        const { clientId, clientSecret, ..._body } = request;
         const _response = await core.fetcher({
             url: urlJoin(await core.Supplier.get(this.options.environment), "orders"),
             method: "POST",
             headers: {
+                "x-client-id":
+                    (await core.Supplier.get(this.options.clientId)) != null
+                        ? await core.Supplier.get(this.options.clientId)
+                        : undefined,
+                "x-client-secret":
+                    (await core.Supplier.get(this.options.clientSecret)) != null
+                        ? await core.Supplier.get(this.options.clientSecret)
+                        : undefined,
                 "x-api-version":
                     (await core.Supplier.get(this.options.apiVersion)) != null
                         ? await core.Supplier.get(this.options.apiVersion)
                         : undefined,
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "@fern-api/plantstore",
-                "X-Fern-SDK-Version": "0.0.9",
-                "x-client-id": clientId,
-                "x-client-secret": clientSecret,
+                "X-Fern-SDK-Name": "",
+                "X-Fern-SDK-Version": "0.0.19",
             },
             contentType: "application/json",
-            body: await serializers.CreateOrderBackendRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
+            body: await serializers.CreateOrderBackendRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: 60000,
         });
         if (_response.ok) {
@@ -117,13 +124,21 @@ export class Orders {
             url: urlJoin(await core.Supplier.get(this.options.environment), "orders/sessions"),
             method: "POST",
             headers: {
+                "x-client-id":
+                    (await core.Supplier.get(this.options.clientId)) != null
+                        ? await core.Supplier.get(this.options.clientId)
+                        : undefined,
+                "x-client-secret":
+                    (await core.Supplier.get(this.options.clientSecret)) != null
+                        ? await core.Supplier.get(this.options.clientSecret)
+                        : undefined,
                 "x-api-version":
                     (await core.Supplier.get(this.options.apiVersion)) != null
                         ? await core.Supplier.get(this.options.apiVersion)
                         : undefined,
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "@fern-api/plantstore",
-                "X-Fern-SDK-Version": "0.0.9",
+                "X-Fern-SDK-Name": "",
+                "X-Fern-SDK-Version": "0.0.19",
             },
             contentType: "application/json",
             body: await serializers.OrderPayRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
@@ -164,6 +179,126 @@ export class Orders {
                         body: _response.error.body,
                     });
             }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ShubhiMaheshwariApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.ShubhiMaheshwariApiTimeoutError();
+            case "unknown":
+                throw new errors.ShubhiMaheshwariApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Use this API to capture or void a preauthorized payment
+     */
+    public async preauthorization(
+        orderId: string,
+        request: ShubhiMaheshwariApi.AuthorizationRequest = {}
+    ): Promise<ShubhiMaheshwariApi.PaymentsEntity> {
+        const _response = await core.fetcher({
+            url: urlJoin(await core.Supplier.get(this.options.environment), `orders/${orderId}/authorization`),
+            method: "POST",
+            headers: {
+                "x-client-id":
+                    (await core.Supplier.get(this.options.clientId)) != null
+                        ? await core.Supplier.get(this.options.clientId)
+                        : undefined,
+                "x-client-secret":
+                    (await core.Supplier.get(this.options.clientSecret)) != null
+                        ? await core.Supplier.get(this.options.clientSecret)
+                        : undefined,
+                "x-api-version":
+                    (await core.Supplier.get(this.options.apiVersion)) != null
+                        ? await core.Supplier.get(this.options.apiVersion)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "",
+                "X-Fern-SDK-Version": "0.0.19",
+            },
+            contentType: "application/json",
+            body: await serializers.AuthorizationRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: 60000,
+        });
+        if (_response.ok) {
+            return await serializers.PaymentsEntity.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.ShubhiMaheshwariApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ShubhiMaheshwariApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.ShubhiMaheshwariApiTimeoutError();
+            case "unknown":
+                throw new errors.ShubhiMaheshwariApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Use this API to view all details of an order.
+     */
+    public async getOrder(orderId: string): Promise<ShubhiMaheshwariApi.OrdersEntity> {
+        const _response = await core.fetcher({
+            url: urlJoin(await core.Supplier.get(this.options.environment), `orders/${orderId}`),
+            method: "GET",
+            headers: {
+                "x-client-id":
+                    (await core.Supplier.get(this.options.clientId)) != null
+                        ? await core.Supplier.get(this.options.clientId)
+                        : undefined,
+                "x-client-secret":
+                    (await core.Supplier.get(this.options.clientSecret)) != null
+                        ? await core.Supplier.get(this.options.clientSecret)
+                        : undefined,
+                "x-api-version":
+                    (await core.Supplier.get(this.options.apiVersion)) != null
+                        ? await core.Supplier.get(this.options.apiVersion)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "",
+                "X-Fern-SDK-Version": "0.0.19",
+            },
+            contentType: "application/json",
+            timeoutMs: 60000,
+        });
+        if (_response.ok) {
+            return await serializers.OrdersEntity.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.ShubhiMaheshwariApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
         }
 
         switch (_response.error.reason) {

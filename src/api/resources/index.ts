@@ -1,2 +1,18 @@
 export * as orders from "./orders";
+export * as authentication from "./authentication";
+export * as payments from "./payments";
+export * as offers from "./offers";
+export * as eligibilityApIs from "./eligibilityApIs";
+export * as refunds from "./refunds";
+export * as settlements from "./settlements";
+export * as paymentLinks from "./paymentLinks";
+export * as softPos from "./softPos";
+export * as tokenVault from "./tokenVault";
 export * from "./orders/client/requests";
+export * from "./authentication/client/requests";
+export * from "./offers/client/requests";
+export * from "./eligibilityApIs/client/requests";
+export * from "./refunds/client/requests";
+export * from "./paymentLinks/client/requests";
+export * from "./softPos/client/requests";
+export * from "./tokenVault/client/requests";

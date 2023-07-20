@@ -8,7 +8,7 @@ import * as core from "../../../../../core";
 
 export const CreateOrderBackendRequest: core.serialization.Schema<
     serializers.CreateOrderBackendRequest.Raw,
-    Omit<ShubhiMaheshwariApi.CreateOrderBackendRequest, "clientId" | "clientSecret">
+    ShubhiMaheshwariApi.CreateOrderBackendRequest
 > = core.serialization.object({
     orderId: core.serialization.property("order_id", core.serialization.string().optional()),
     orderAmount: core.serialization.property("order_amount", core.serialization.number()),

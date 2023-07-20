@@ -1,6 +1,6 @@
 {
-    "name": "@fern-api/plantstore",
-    "version": "0.0.9",
+    "name": "",
+    "version": "0.0.19",
     "private": false,
     "repository": "https://github.com/ShubhiMaheshwari/fern-sdk-node",
     "main": "./index.js",
@@ -13,8 +13,8 @@
     "dependencies": {
         "url-join": "4.0.1",
         "@types/url-join": "4.0.1",
-        "axios": "0.27.2",
-        "@ungap/url-search-params": "0.2.2"
+        "@ungap/url-search-params": "0.2.2",
+        "axios": "0.27.2"
     },
     "devDependencies": {
         "@types/node": "17.0.33",

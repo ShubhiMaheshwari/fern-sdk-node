@@ -5,8 +5,6 @@
 import * as ShubhiMaheshwariApi from "../../../..";
 
 export interface CreateOrderBackendRequest {
-    clientId: string;
-    clientSecret: string;
     /** Order identifier present in your system. Alphanumeric and only - and _ allowed. <span style="white-space: nowrap">`<= 45 characters`</span> */
     orderId?: string;
     /** Bill amount for the order. Provide upto two decimals. 10.15 means Rs 10 and 15 paisa */
