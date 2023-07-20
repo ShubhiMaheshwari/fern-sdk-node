@@ -44,7 +44,7 @@ export class EligibilityApIs {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "",
-                "X-Fern-SDK-Version": "0.0.19",
+                "X-Fern-SDK-Version": "0.0.20",
             },
             contentType: "application/json",
             body: await serializers.EligibilityOffersRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
@@ -105,7 +105,7 @@ export class EligibilityApIs {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "",
-                "X-Fern-SDK-Version": "0.0.19",
+                "X-Fern-SDK-Version": "0.0.20",
             },
             contentType: "application/json",
             body: await serializers.EligibilityCardlessEmiRequest.jsonOrThrow(request, {
@@ -168,7 +168,7 @@ export class EligibilityApIs {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "",
-                "X-Fern-SDK-Version": "0.0.19",
+                "X-Fern-SDK-Version": "0.0.20",
             },
             contentType: "application/json",
             body: await serializers.EligibilityCardlessEmiRequest.jsonOrThrow(request, {

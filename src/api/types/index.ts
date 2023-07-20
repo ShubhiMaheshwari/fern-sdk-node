@@ -1,7 +1,6 @@
 export * from "./OrderPayRequestPaymentMethod";
 export * from "./AuthorizationRequestAction";
 export * from "./OtpRequestAction";
-export * from "./GetPaymentsfororderResponse";
 export * from "./EligibilityCardlessEmiRequest";
 export * from "./CreateRefundRequestRefundSpeed";
 export * from "./FetchSettlementReconRequest";

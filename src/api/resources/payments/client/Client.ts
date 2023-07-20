@@ -23,7 +23,7 @@ export class Payments {
     /**
      * Use this API to view all payment details for an order.
      */
-    public async getPaymentsfororder(orderId: string): Promise<ShubhiMaheshwariApi.GetPaymentsfororderResponse> {
+    public async getPaymentsfororder(orderId: string): Promise<ShubhiMaheshwariApi.PaymentsEntity> {
         const _response = await core.fetcher({
             url: urlJoin(await core.Supplier.get(this.options.environment), `orders/${orderId}/payments`),
             method: "GET",
@@ -42,13 +42,13 @@ export class Payments {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "",
-                "X-Fern-SDK-Version": "0.0.19",
+                "X-Fern-SDK-Version": "0.0.20",
             },
             contentType: "application/json",
             timeoutMs: 60000,
         });
         if (_response.ok) {
-            return await serializers.GetPaymentsfororderResponse.parseOrThrow(_response.body, {
+            return await serializers.PaymentsEntity.parseOrThrow(_response.body, {
                 unrecognizedObjectKeys: "passthrough",
                 allowUnrecognizedUnionMembers: true,
                 allowUnrecognizedEnumValues: true,
@@ -103,7 +103,7 @@ export class Payments {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "",
-                "X-Fern-SDK-Version": "0.0.19",
+                "X-Fern-SDK-Version": "0.0.20",
             },
             contentType: "application/json",
             timeoutMs: 60000,
